@@ -1,6 +1,6 @@
 {
   "name": "w3schools-react-ui",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The w3schools react ui component",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

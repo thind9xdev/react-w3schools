@@ -1,59 +1,54 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+const AccordionWrapper = styled.div`
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+`;
+
+const AccordionTitle = styled.div`
+  background-color: #f0f0f0;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const AccordionContent = styled.div<{ isOpen: boolean }>`
+  padding: 10px;
+  display: ${(props) => (props.isOpen ? 'block' : 'none')};
+  transition: height 0.3s ease;
+  height: ${(props) => (props.isOpen ? 'auto' : '0')};
+  overflow: hidden;
+`;
+
+const Icon = styled.span`
+  transform: rotate(0deg);
+  transition: transform 0.3s ease;
+  float: right; 
+`;
+
 interface AccordionProps {
   title: string;
   content: React.ReactNode;
 }
 
-interface AccordionContentProps {
-  isActive: boolean;
-}
-
-const AccordionContainer = styled.div`
-  width: 100%;
-`;
-
-const AccordionButton = styled.button`
-  background-color: #eee;
-  color: #444;
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
-  transition: 0.4s;
-
-  &:hover {
-    background-color: #ccc;
-  }
-`;
-
-const AccordionContent = styled.div<AccordionContentProps>`
-  padding: 0 18px;
-  background-color: white;
-  overflow: hidden;
-  transition: max-height 0.2s ease-out;
-  max-height: ${({ isActive }: AccordionContentProps) => (isActive ? '1000px' : '0')};
-`;
-
 const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
-  const [isActive, setIsActive] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleAccordion = () => {
-    setIsActive(!isActive);
+    setIsOpen(!isOpen);
   };
 
   return (
-    <AccordionContainer>
-      <AccordionButton className={isActive ? 'active' : ''} onClick={toggleAccordion}>
+    <AccordionWrapper>
+      <AccordionTitle onClick={toggleAccordion}>
         {title}
-        <span>{isActive ? '-' : '+'}</span>
-      </AccordionButton>
-      <AccordionContent isActive={isActive}>{content}</AccordionContent>
-    </AccordionContainer>
+        <Icon style={{float:'right'}}>{isOpen ? '-' : '+'}</Icon>
+      </AccordionTitle>
+      <AccordionContent isOpen={isOpen}>{content}</AccordionContent>
+    </AccordionWrapper>
   );
 };
 
